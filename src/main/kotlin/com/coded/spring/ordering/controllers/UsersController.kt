@@ -1,0 +1,42 @@
+package com.coded.spring.ordering.controllers
+
+import com.coded.spring.ordering.entities.Roles
+import com.coded.spring.ordering.entities.UserEntity
+import com.coded.spring.ordering.services.UsersService
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
+
+@RestController
+class UsersControllers(private val usersService: UsersService) {
+
+    @GetMapping("/users/v1/list")
+    fun users() = usersService.listUsers()
+
+    @GetMapping("/users/v1/{userId}")
+    fun user(@PathVariable userId: Long) = usersService.getUserDtoById(userId)
+
+    @PostMapping("/users/v1/register")
+    fun createUser(@RequestBody request: UserRequest) {
+        val user = UserEntity(
+            name = request.name,
+            age = request.age,
+            username = request.username,
+            password = request.password,
+            role = request.role
+        )
+        usersService.createUser(user)
+    }
+
+    data class UserRequest(
+        val name: String,
+        val age: Int,
+        val username: String,
+        val password: String,
+        val role: Roles
+    )
+
+
+}
