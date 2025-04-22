@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 
 class OrdersController(val ordersRepository: OrdersRepository, val ordersService: OrdersService) {
 
-    @PostMapping("/orders")
+    @PostMapping("/orders/v1/orders")
     fun createNewOrder(@RequestBody req: OrderRequest) {
         ordersService.createOrder(userId = req.user)
     }

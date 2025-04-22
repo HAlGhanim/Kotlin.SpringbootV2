@@ -15,14 +15,14 @@ class AuthenticationController(
 ) {
 
     @PostMapping("/login")
-    fun login(@RequestBody authRequest: AuthenticationRequest): AuthenticationResponse {
+    fun login(@RequestBody authRequest: AuthenticationRequest): String {
         val authToken = UsernamePasswordAuthenticationToken(authRequest.username, authRequest.password)
         val authentication = authenticationManager.authenticate(authToken)
 
         if (authentication.isAuthenticated) {
             val userDetails = userDetailsService.loadUserByUsername(authRequest.username)
             val token = jwtService.generateToken(userDetails.username)
-            return AuthenticationResponse (token)
+            return token
         } else {
             throw UsernameNotFoundException("Invalid user request!")
         }
@@ -32,8 +32,4 @@ class AuthenticationController(
 data class AuthenticationRequest(
     val username: String,
     val password: String
-)
-
-data class AuthenticationResponse(
-    val token: String
 )

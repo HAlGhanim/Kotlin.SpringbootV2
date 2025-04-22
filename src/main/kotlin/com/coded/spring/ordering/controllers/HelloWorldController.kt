@@ -10,7 +10,7 @@ class HelloWorldController(){
 
     @GetMapping("/hello")
     fun helloWorld(): String {
-        return "Hello World"
+        return "Hello World!"
     }
 
     @GetMapping("/boo")

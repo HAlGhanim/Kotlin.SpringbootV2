@@ -15,7 +15,9 @@ class OrdersService(
 
 
     fun createOrder(userId: Long): OrderResponse {
-        val user = usersRepository.findById(userId).get()
+        val user = usersRepository.findById(userId).orElseThrow {
+            IllegalArgumentException("User with id $userId not found")
+        }
         val newOrder = OrderEntity(user = user)
         orderRepository.save(newOrder)
         return OrderResponse(newOrder.user, newOrder.items)
