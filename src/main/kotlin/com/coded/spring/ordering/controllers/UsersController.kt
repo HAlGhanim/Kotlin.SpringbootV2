@@ -4,6 +4,8 @@ import com.coded.spring.ordering.entities.Roles
 import com.coded.spring.ordering.entities.UserEntity
 import com.coded.spring.ordering.services.ProfilesService
 import com.coded.spring.ordering.services.UsersService
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Pattern
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -36,7 +38,7 @@ class UsersControllers(private val usersService: UsersService, private val profi
 
     @PostMapping("/users/v1/{userId}/profile")
     fun createProfile(
-        @RequestBody request: ProfileRequest,
+        @RequestBody @Valid request: ProfileRequest,
         @PathVariable userId: Long
     ) {
         profileService.createProfileForUser(
@@ -56,8 +58,14 @@ class UsersControllers(private val usersService: UsersService, private val profi
     )
 
     data class ProfileRequest(
+
+        @field:Pattern(regexp = "^[a-zA-Z]+$", message = "First name must contain only letters")
         val firstName: String,
+
+        @field:Pattern(regexp = "^[a-zA-Z]+$", message = "Last name must contain only letters")
         val lastName: String,
+
+        @field:Pattern(regexp = "^\\d{8}$", message = "Phone number must be exactly 8 digits with no letters")
         val phoneNumber: String?
     )
 
