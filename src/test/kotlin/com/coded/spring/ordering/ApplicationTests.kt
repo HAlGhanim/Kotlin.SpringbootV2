@@ -87,4 +87,28 @@ class ApplicationTests {
 
 		assertEquals(HttpStatus.OK, response.statusCode)
 	}
+
+	@Test
+	fun testProfileSubmit(@Autowired jwtService: JwtService) {
+		val token = jwtService.generateToken("coded")
+		val headers = HttpHeaders()
+		headers.setBearerAuth(token)
+		headers.set("Content-Type", "application/json")
+
+		val requestBody = mapOf(
+			"firstName" to "Humoud",
+			"lastName" to "AlGhanim",
+			"phoneNumber" to "99996703"
+		)
+
+		val requestEntity = HttpEntity(requestBody, headers)
+		val response = restTemplate.exchange(
+			"/users/v1/${savedUser.id}/profile",
+			HttpMethod.POST,
+			requestEntity,
+			String::class.java
+		)
+
+		assertEquals(HttpStatus.OK, response.statusCode)
+	}
 }
