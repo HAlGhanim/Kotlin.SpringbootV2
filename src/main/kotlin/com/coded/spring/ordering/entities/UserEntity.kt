@@ -17,7 +17,10 @@ data class UserEntity(
     var password: String,
 
     @Enumerated(EnumType.STRING)
-    val role: Roles = Roles.USER
+    val role: Roles = Roles.USER,
+
+    @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var profile: ProfileEntity? = null
 
 ) {
     constructor() : this(0, "name", 0, "username", "password", Roles.USER)
