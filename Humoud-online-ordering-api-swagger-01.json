@@ -1,0 +1,490 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users API",
+      "description": "Operations related to Users and Profiles"
+    },
+    {
+      "name": "Authentication API",
+      "description": "User Authentication and JWT generation"
+    },
+    {
+      "name": "Hello API",
+      "description": "Operations related to Hello"
+    },
+    {
+      "name": "Orders API",
+      "description": "Operations related to Orders"
+    }
+  ],
+  "paths": {
+    "/users/v1/{userId}/profile": {
+      "post": {
+        "tags": [
+          "Users API"
+        ],
+        "summary": "Create a user profile",
+        "description": "Create a profile for an existing user",
+        "operationId": "createProfile",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Profile successfully created",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Invalid profile data"
+          }
+        }
+      }
+    },
+    "/users/v1/register": {
+      "post": {
+        "tags": [
+          "Users API"
+        ],
+        "summary": "Register a new user",
+        "description": "Create a new user account",
+        "operationId": "createUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User successfully created",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Invalid user data"
+          }
+        }
+      }
+    },
+    "/orders/v1/orders": {
+      "post": {
+        "tags": [
+          "Orders API"
+        ],
+        "summary": "Create a new order",
+        "description": "Creates a new order for a specific user",
+        "operationId": "createNewOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Order successfully created",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Invalid order data"
+          }
+        }
+      }
+    },
+    "/hello": {
+      "get": {
+        "tags": [
+          "Hello API"
+        ],
+        "summary": "Say Hello World",
+        "operationId": "helloWorld",
+        "responses": {
+          "200": {
+            "description": "Successful Hello World response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Hello API"
+        ],
+        "summary": "Say Hello with Name",
+        "operationId": "helloName",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Name"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful personalized Hello response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Authentication API"
+        ],
+        "summary": "User Login",
+        "description": "Authenticate user and return a JWT token",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful, JWT token returned",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "401": {
+            "description": "Invalid username or password",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/v1/{userId}": {
+      "get": {
+        "tags": [
+          "Users API"
+        ],
+        "summary": "Get user by ID",
+        "description": "Retrieve a specific user by their ID",
+        "operationId": "user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User found",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/v1/list": {
+      "get": {
+        "tags": [
+          "Users API"
+        ],
+        "summary": "List all users",
+        "description": "Retrieve a list of all users",
+        "operationId": "users",
+        "responses": {
+          "200": {
+            "description": "List of all users",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/users/profiles/v1/list": {
+      "get": {
+        "tags": [
+          "Users API"
+        ],
+        "summary": "List all profiles",
+        "description": "Retrieve a list of all user profiles",
+        "operationId": "profiles",
+        "responses": {
+          "200": {
+            "description": "List of all profiles",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": [
+          "Orders API"
+        ],
+        "summary": "Retrieve all orders",
+        "description": "Get a list of all existing orders",
+        "operationId": "getOrders",
+        "responses": {
+          "200": {
+            "description": "List of all orders",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/boo": {
+      "get": {
+        "tags": [
+          "Hello API"
+        ],
+        "summary": "Testing endpoint",
+        "operationId": "testing",
+        "responses": {
+          "200": {
+            "description": "Successful test response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ProfileRequest": {
+        "required": [
+          "firstName",
+          "lastName"
+        ],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "pattern": "^[a-zA-Z]+$",
+            "type": "string"
+          },
+          "lastName": {
+            "pattern": "^[a-zA-Z]+$",
+            "type": "string"
+          },
+          "phoneNumber": {
+            "pattern": "^\\d{8}$",
+            "type": "string"
+          }
+        }
+      },
+      "UserRequest": {
+        "required": [
+          "age",
+          "name",
+          "password",
+          "role",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "USER",
+              "ADMIN"
+            ]
+          }
+        }
+      },
+      "ItemEntity": {
+        "required": [
+          "name",
+          "order_id",
+          "quantity"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "order_id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "OrderRequest": {
+        "required": [
+          "items",
+          "restaurant",
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "restaurant": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemEntity"
+            }
+          }
+        }
+      },
+      "Name": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthenticationRequest": {
+        "required": [
+          "password",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "required": [
+          "id",
+          "name",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
