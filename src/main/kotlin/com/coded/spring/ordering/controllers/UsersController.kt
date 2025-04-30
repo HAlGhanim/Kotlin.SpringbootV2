@@ -3,7 +3,9 @@ package com.coded.spring.ordering.controllers
 import com.coded.spring.ordering.entities.Roles
 import com.coded.spring.ordering.entities.UserEntity
 import com.coded.spring.ordering.services.ProfilesService
+import com.coded.spring.ordering.services.User
 import com.coded.spring.ordering.services.UsersService
+import com.coded.spring.ordering.services.UsersProvider
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.*
 @Tag(name = "Users API", description = "Operations related to Users and Profiles")
 class UsersControllers(
     private val usersService: UsersService,
-    private val profileService: ProfilesService
+    private val profileService: ProfilesService,
 ) {
 
     @Operation(
@@ -35,7 +37,7 @@ class UsersControllers(
         ]
     )
     @GetMapping("/users/v1/list")
-    fun users() = usersService.listUsers()
+    fun fetchUsers(): List<User> = usersService.listUsers()
 
     @Operation(
         summary = "List all profiles",

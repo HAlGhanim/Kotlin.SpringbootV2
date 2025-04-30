@@ -1,6 +1,5 @@
 package com.coded.spring.ordering.controllers
 
-import com.coded.spring.ordering.entities.ItemEntity
 import com.coded.spring.ordering.entities.OrderEntity
 import com.coded.spring.ordering.repositories.OrdersRepository
 import com.coded.spring.ordering.services.OrdersService

@@ -3,10 +3,11 @@ package com.coded.spring.ordering.services
 import com.coded.spring.ordering.entities.UserEntity
 import com.coded.spring.ordering.repositories.UsersRepository
 import jakarta.inject.Named
+import org.springframework.cache.annotation.Cacheable
 
 @Named
 class UsersService(
-    private val usersRepository: UsersRepository,
+    private val usersRepository: UsersRepository, private val usersProvider: UsersProvider
 ) {
 
     fun getUserById(userId: Long): UserEntity {
@@ -23,13 +24,23 @@ class UsersService(
     }
 
 
-    fun listUsers(): List<User> = usersRepository.findAll().map {
+//    fun listUsers(): List<User> = usersRepository.findAll().map {
+//        User(
+//            id = it.id!!,
+//            name = it.name,
+//            username = it.username,
+//        )
+//    }
+    fun listUsers(): List<User> = usersProvider.getUsers()
+
+    fun listUsersDirect(): List<User> = usersRepository.findAll().map {
         User(
             id = it.id!!,
             name = it.name,
             username = it.username,
         )
     }
+
 
     fun createUser(user: UserEntity): UserEntity {
         return usersRepository.save(user)
